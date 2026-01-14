@@ -1,0 +1,53 @@
+seed: 0
+n_iters: 10
+eval_interval: 10
+render_interval: 1
+save_gifs: False
+save_interval: 50
+log_wandb: True
+log_interval: 1
+save_model: True
+load_model: False
+load_buffer_path: None
+main_save_path: "results/"
+load_model_path: "results/dcc/xxxx_xxxx_sdx/models_xxx.pt"
+hidden_sizes_mlp: [64]  # mlp encoder hidden size
+lr: 5e-4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
