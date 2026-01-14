@@ -129,6 +129,8 @@ class Learner:
         self._start_time = time.time()
         self._check_time = time.time()
 
+        self.train_curve = []  # 用于保存画图的原始数据（新增，不影响原逻辑）
+
     def train(self):
         self.warmup(self.rl_buffer, self.train_envs)
 
@@ -137,6 +139,13 @@ class Learner:
                 self.trainer.policy.lr_decay(iter_, self.n_iters)
 
             rollout_info = self.rollout(self.rl_buffer, self.train_envs)
+
+            # ===== 新增：记录画图所需的原始数据（不影响原逻辑）=====
+            self.train_curve.append({
+                "iter": iter_,
+                "reward": rollout_info["reward"],
+                "coverage_rate": rollout_info["coverage_rate"],
+            })
 
             rl_train_info = self.rl_update()
 
@@ -162,6 +171,15 @@ class Learner:
                     os.makedirs(save_path, exist_ok=True)
                     self.save_model(save_path)
                     print("model saved in %s" % save_path)
+
+        # ===== 新增：训练结束后保存画图原始数据 .npy文件 =====
+        save_dir = self.output_path if self.is_save_model else "./results"
+        os.makedirs(save_dir, exist_ok=True)
+
+        save_path = os.path.join(save_dir, "train_curve.npy")
+        np.save(save_path, self.train_curve)
+
+        print(f"[INFO] training curve saved to {save_path}")
 
         if self.is_log_wandb:
             wandb.finish()
