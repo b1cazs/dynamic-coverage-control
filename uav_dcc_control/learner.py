@@ -129,7 +129,7 @@ class Learner:
         self._start_time = time.time()
         self._check_time = time.time()
 
-        self.train_curve = []  # 用于保存画图的原始数据（新增，不影响原逻辑）
+        self.train_curve = []  # 用于保存画图的原始数据
 
     def train(self):
         self.warmup(self.rl_buffer, self.train_envs)
@@ -140,7 +140,7 @@ class Learner:
 
             rollout_info = self.rollout(self.rl_buffer, self.train_envs)
 
-            # ===== 新增：记录画图所需的原始数据（不影响原逻辑）=====
+            # ===== 新增：记录画图所需的原始数据 =====
             self.train_curve.append({
                 "iter": iter_,
                 "reward": rollout_info["reward"],
